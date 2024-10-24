@@ -1,39 +1,58 @@
 import "./styles.css";
 import { createRoot } from "react-dom/client";
-import Counter from "./components/Counter";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import React from "react";
+import Join from "./components/Join";
+import Game from "./components/Game";
+import Seeker from "./components/Seeker";
+import Target from "./components/Target";
+import Admin from "./components/Admin";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/room",
+        element: <Join />
+      },
+      {
+        path: "/room/:roomId",
+        element: <Game />,
+        children: [
+          {
+            path: "/admin",
+            element: <Admin />
+          },
+          {
+            path: "/seeker",
+            element: <Seeker />
+          },
+          {
+            path: "/target",
+            element: <Target />
+          },
+        ]
+      }
+    ]
+  },
+]);
 
 function App() {
   return (
     <main>
-      <h1>🎈 Welcome to PartyKit!</h1>
-      <p>
-        This is the React starter. (
-        <a href="https://github.com/partykit/templates/tree/main/templates/react">
-          README on GitHub.
-        </a>
-        )
-      </p>
-      <p>Find your way around:</p>
-      <ul>
-        <li>
-          PartyKit server: <code>party/server.ts</code>
-        </li>
-        <li>
-          Client entrypoint: <code>app/client.tsx</code>
-        </li>
-        <li>
-          The Counter component: <code>app/components/Counter.tsx</code>
-        </li>
-      </ul>
-      <p>
-        Read more: <a href="https://docs.partykit.io">PartyKit docs</a>
-      </p>
-      <p>
-        <i>This counter is multiplayer. Try it with multiple browser tabs.</i>
-      </p>
-      <Counter />
+      <Outlet></Outlet>
     </main>
   );
 }
 
-createRoot(document.getElementById("app")!).render(<App />);
+createRoot(document.getElementById("app")!).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);

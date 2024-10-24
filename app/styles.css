@@ -1,16 +1,9 @@
-/* 
-  We've already included normalize.css. 
-
-  But we'd like a modern looking boilerplate. 
-  Clean type, sans-serif, and a nice color palette. 
-  
-*/
-
 body {
   font-family: sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #333;
+  color: #fff;
+  background-color: #111;
 }
 
 h1,
