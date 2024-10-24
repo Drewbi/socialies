@@ -1,12 +1,8 @@
-# 🎈 socialies
+# 🃏 Socialies
 
-Welcome to the party, pal!
+Socialies is a background game where players will have a target they need to obtain a peice of personal information about without them knowing. The point is to try and be subtle enough the target doesn't know they're being targeted.
 
-This is a [Partykit](https://partykit.io) project, which lets you create real-time collaborative applications with minimal coding effort.
-
-This is the **React starter** which pairs a PartyKit server with a React client.
-
-Refer to our docs for more information: https://github.com/partykit/partykit/blob/main/README.md. For more help, reach out to us on [Discord](https://discord.gg/g5uqHQJc3z), [GitHub](https://github.com/partykit/partykit), or [Twitter](https://twitter.com/partykit_io).
+This game uses party kit to sync game state and distribute prompts.
 
 ## Usage
 
