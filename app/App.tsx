@@ -6,11 +6,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import React from "react";
-import Join from "./components/Join";
-import Game from "./components/Game";
-import Seeker from "./components/Seeker";
-import Target from "./components/Target";
-import Admin from "./components/Admin";
+import Join from "./pages/Join";
+import Game from "./pages/Game";
+import Seeker from "./pages/Seeker";
+import Target from "./pages/Target";
+import Admin from "./pages/Admin";
 
 const router = createBrowserRouter([
   {
@@ -26,15 +26,15 @@ const router = createBrowserRouter([
         element: <Game />,
         children: [
           {
-            path: "/admin",
+            path: "/room/:roomId/admin",
             element: <Admin />
           },
           {
-            path: "/seeker",
+            path: "/room/:roomId/seeker",
             element: <Seeker />
           },
           {
-            path: "/target",
+            path: "/room/:roomId/target",
             element: <Target />
           },
         ]

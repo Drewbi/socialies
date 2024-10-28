@@ -5,6 +5,7 @@
   "compatibilityDate": "2024-10-21",
   "serve": {
     "path": "public",
-    "build": "app/client.tsx"
+    "build": "app/App.tsx",
+    "singlePageApp": true
   }
 }
