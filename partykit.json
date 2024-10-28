@@ -4,7 +4,7 @@
   "main": "party/server.ts",
   "compatibilityDate": "2024-10-21",
   "serve": {
-    "path": "public",
+    "path": "app/public",
     "build": "app/App.tsx",
     "singlePageApp": true
   }
