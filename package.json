@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"partykit dev\" \"vite dev\" --kill-others-on-fail",
-    "deploy": "partykit deploy",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "vite build",
+    "dev": "concurrently \"partykit dev --define DEVMODE=true\" \"vite dev\" --kill-others-on-fail",
+    "start": "partykit dev --define DEVMODE=false --serve ./build",
+    "deploy": "npm run build && partykit deploy --define DEVMODE=false --serve ./build",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.1",
