@@ -1,36 +1,50 @@
-# 🃏 Socialies
+# React + TypeScript + Vite
 
-Socialies is a background game where players will have a target they need to obtain a peice of personal information about without them knowing. The point is to try and be subtle enough the target doesn't know they're being targeted.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-This game uses party kit to sync game state and distribute prompts.
+Currently, two official plugins are available:
 
-## Usage
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-You can start developing by running `npm run dev` and opening [http://localhost:1999](http://localhost:1999) in your browser. When you're ready, you can deploy your application on to the PartyKit cloud with `npm run deploy`.
+## Expanding the ESLint configuration
 
-## Finding your way around
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-[`party/server.ts`](./party/server.ts) is the server-side code, which is responsible for handling WebSocket events and HTTP requests.
+- Configure the top-level `parserOptions` property like this:
 
-It implements a simple counter that can be incremented by any connected client. The latest state is broadcast to all connected clients.
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-> [!NOTE]
-> The full Server API is available at [Party.Server in the PartyKit docs](https://docs.partykit.io/reference/partyserver-api/)
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-[`app/client.tsx`](./src/client.ts) is the entrypoint to client-side code.
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-[`app/components/Counter.tsx`](./src/components/Counter.tsx) connects to the server, sends `increment` events on the WebSocket, and listens for updates.
-
-> [!NOTE]
-> The client-side reference can be found at [PartySocket in the PartyKit docs](https://docs.partykit.io/reference/partysocket-api/)
-
-As a client-side React app, the app could be hosted every. During development, for convenience, the server serves the client-side code as well.
-
-This is achieved with the optional `serve` property in the [`partykit.json`](./partykit.json) config file.
-
-> [!NOTE]
-> Learn about PartyKit config under [Configuration in the PartyKit docs](https://docs.partykit.io/reference/partykit-configuration/)
-
-## Next Steps
-
-Learn about deploying PartyKit applications in the [Deployment guide of the PartyKit docs](https://docs.partykit.io/guides/deploying-your-partykit-server/).
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
