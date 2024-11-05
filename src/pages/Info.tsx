@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 export default function() {
     return (
         <>
-            <div>info</div>
-            <Button variant="outline" className="text-white" asChild><Link to="./seeker">Begin</Link></Button>
+            <div>infoo</div>
+            <Button variant="outline" asChild><Link to="./seeker">Begin</Link></Button>
         </>
     )
 }

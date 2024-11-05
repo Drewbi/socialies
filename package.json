@@ -1,11 +1,11 @@
 {
-  "name": "shadcn-test",
+  "name": "socialies",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "concurrently \"partykit dev\" \"vite dev\" --kill-others-on-fail",
+    "deploy": "partykit deploy",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -14,7 +14,9 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "concurrently": "^9.1.0",
     "lucide-react": "^0.454.0",
+    "partysocket": "1.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
@@ -32,6 +34,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "partykit": "0.0.111",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14",
     "typescript": "~5.6.2",

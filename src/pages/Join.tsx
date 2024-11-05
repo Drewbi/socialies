@@ -9,7 +9,7 @@ export default function Join() {
   return (
     <>
       <Input type="text" placeholder="Room Code" value={code} onChange={e => setCode(e.target.value)} />
-      {code && <Button variant="outline" className="text-white" asChild><Link to={code}>Enter</Link></Button>}
+      {code && <Button variant="outline" asChild><Link to={code}>Enter</Link></Button>}
     </>
   )
 }
