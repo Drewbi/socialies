@@ -1,4 +1,4 @@
-import { Crosshair2Icon, PersonIcon } from "@radix-ui/react-icons";
+import { Crosshair, ShieldQuestion } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function() {
@@ -9,10 +9,10 @@ export default function() {
     return (
         <div className="absolute bottom-0 left-0 w-full flex justify-between">
         <Link to="./seeker" relative="path" className={`w-24 h-24 flex justify-center items-center border-2 border-white rounded-tr-3xl ${isSeekerRoute ? 'bg-white text-secondary' : ''}`}>
-            <Crosshair2Icon className="h-8 w-8" />
+            <Crosshair className="h-8 w-8" />
         </Link>
         <Link to="./target" relative="path" className={`w-24 h-24 flex justify-center items-center border-2 border-white rounded-tl-3xl ${isTargetRoute ? 'bg-white text-secondary' : ''}`}>
-            <PersonIcon className="h-8 w-8" />
+            <ShieldQuestion className="h-8 w-8" />
         </Link>
       </div>
     )

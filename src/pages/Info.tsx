@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function() {
+    const navigate = useNavigate()
     return (
         <>
-            <div>infoo</div>
-            <Button variant="outline" asChild><Link to="./seeker">Begin</Link></Button>
+            info
+            <Button onClick={() => navigate('../seeker')}>Start</Button>       
         </>
     )
 }

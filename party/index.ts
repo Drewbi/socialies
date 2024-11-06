@@ -1,12 +1,16 @@
 import type * as Party from "partykit/server";
+import { handleRegister } from "./handlers";
+import { GameState } from "./types";
+import { decodeMessage, encodeMessage } from "./util";
 
 declare const DEVMODE: boolean;
 
 export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) {}
 
+  state: GameState = {}
+
   onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
-    // A websocket just connected!
     console.log(
       `Connected:
   id: ${conn.id}
@@ -14,11 +18,19 @@ export default class Server implements Party.Server {
   url: ${new URL(ctx.request.url).pathname}`
     );
 
-    // let's send a message to the connection
-    conn.send("hello from server");
+    conn.send(encodeMessage({ type: 'connected' }));
   }
 
   onMessage(message: string, sender: Party.Connection) {
+    try {
+      const data = decodeMessage(message)
+      switch(data.type) {
+        case 'register':
+          handleRegister(this.state, sender, data)
+      }
+    } catch (error) {
+      sender.send(encodeMessage({ type: 'notok', data: {error}}))
+    }
     // let's log the message
     console.log(`connection ${sender.id} sent message: ${message}`);
     // as well as broadcast it to all the other connections in the room...
