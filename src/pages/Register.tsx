@@ -1,38 +1,39 @@
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useGameConnection } from "@/lib/socket";
 import { TriangleAlert } from "lucide-react";
-import usePartySocket from "partysocket/react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function Register() {
   const [name, setName] = useState("")
   const [showAlert, setShowAlert] = useState(false)
   const navigate = useNavigate()
-  const {roomId} = useParams()
 
-  const socket = usePartySocket({
-    room: roomId,
-    onMessage({ data }) {
-      const message = JSON.parse(data)
-      if (message.type === 'ok') navigate('./info')
-      else if (message.type === 'connected') console.log('connected')
-      else setShowAlert(true)
-    },
-  });
+  const socket = useGameConnection();
+  useEffect(() => {
+    if (socket) {
+      socket.onmessage = ({ data }) => {
+        const message = JSON.parse(data)
+        if (message.type === 'ok') navigate('./info')
+          else if (message.type === 'connected') console.log('connected')
+        else setShowAlert(true)
+      }
 
+    }
+  }, [socket])
+  
   const sendName = () => {
-    if(!roomId || !name) return
-
-    socket.send(
+    if(!name || !socket) return
+    if (socket) {
+      socket.send(
         JSON.stringify({
-            type: 'register',
-            data: {
-                name
-            }
+          type: 'register',
+          data: { name }
         })
-    )
+      )
+    } 
   }
   
   return (
