@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGameConnection } from "@/lib/socket";
 import { TriangleAlert } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [name, setName] = useState("")
@@ -14,26 +14,27 @@ export default function Register() {
   const socket = useGameConnection();
   useEffect(() => {
     if (socket) {
-      socket.onmessage = ({ data }) => {
+      socket.addEventListener('message', ({ data }) => {
         const message = JSON.parse(data)
-        if (message.type === 'ok') navigate('./info')
-          else if (message.type === 'connected') console.log('connected')
+        console.log(message)
+        if (message.type === 'ok') {
+          navigate('./info')
+          return
+        }
         else setShowAlert(true)
-      }
-
+      })
     }
   }, [socket])
   
+
   const sendName = () => {
     if(!name || !socket) return
-    if (socket) {
-      socket.send(
-        JSON.stringify({
-          type: 'register',
-          data: { name }
-        })
-      )
-    } 
+    socket.send(
+      JSON.stringify({
+        type: 'register',
+        data: { name }
+      })
+    )
   }
   
   return (

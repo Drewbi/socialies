@@ -1,5 +1,5 @@
 import type * as Party from "partykit/server";
-import { handleRegister } from "./handlers";
+import { handleAnswer, handleCanStart, handleGetSeekers, handleGetTarget, handleGuess, handleNewTarget, handleRegister, handleStart } from "./handlers";
 import { GameState } from "./types";
 import { decodeMessage, encodeMessage } from "./util";
 
@@ -8,7 +8,10 @@ declare const DEVMODE: boolean;
 export default class Server implements Party.Server {
   constructor(readonly room: Party.Room) {}
 
-  state: GameState = {}
+  state: GameState = {
+    status: 'notstarted',
+    players: {}
+  }
 
   onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
     console.log(
@@ -17,28 +20,42 @@ export default class Server implements Party.Server {
   room: ${this.room.id}
   url: ${new URL(ctx.request.url).pathname}`
     );
-
-    conn.send(encodeMessage({ type: 'connected' }));
   }
 
   onMessage(message: string, sender: Party.Connection) {
     try {
       const data = decodeMessage(message)
+      console.log('Received message from', sender.id)
+      console.log('Message:', data)
       switch(data.type) {
         case 'register':
           handleRegister(this.state, sender, data)
+          break
+        case 'start':
+          handleStart(this.state, this.room)
+          break
+        case 'canstart':
+          handleCanStart(this.state, sender)
+          break
+        case 'target':
+          handleGetTarget(this.state, sender)
+          break
+        case 'newtarget':
+          handleNewTarget(this.state, sender)
+          break
+        case 'answer':
+          handleAnswer(this.state, this.room, sender, data)
+          break
+        case 'seekers':
+          handleGetSeekers(this.state, sender)
+          break
+        case 'guess':
+          handleGuess(this.state, this.room, sender, data)
       }
     } catch (error) {
+      console.error(error)
       sender.send(encodeMessage({ type: 'notok', data: {error}}))
     }
-    // let's log the message
-    console.log(`connection ${sender.id} sent message: ${message}`);
-    // as well as broadcast it to all the other connections in the room...
-    this.room.broadcast(
-      `${sender.id}: ${message}`,
-      // ...except for the connection it came from
-      [sender.id]
-    );
   }
 
   // Dev Proxy

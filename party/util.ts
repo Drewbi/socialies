@@ -1,6 +1,7 @@
-import { RequestMessage, ResponseMessage } from "./types";
+import { GameState, RequestMessage, ResponseMessage } from "./types";
 
 export function encodeMessage(response: ResponseMessage) {
+    console.log('Encoding', response)
     return JSON.stringify(response)
 }
 

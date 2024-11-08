@@ -1,4 +1,4 @@
-import { createBrowserRouter, useRouteError } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import Join from './pages/Join';
 import Game from './pages/Game';
 import Seeker from './pages/Seeker';
@@ -8,6 +8,7 @@ import App from './App';
 import Info from './pages/Info';
 import Register from './pages/Register';
 import MenuLayout from './pages/Controls';
+import { ErrorBoundary } from './components/Error';
 
 export const router = createBrowserRouter([
     {
@@ -57,17 +58,3 @@ export const router = createBrowserRouter([
       errorElement: <ErrorBoundary />
     },
   ]);
-
-function ErrorBoundary() {
-  let error = useRouteError();
-  console.error(error);
-  const message = (error as Error).message
-
-  return (
-    <div className='w-full h-full p-10 flex flex-col justify-center items-center text-destructive'>
-      <h1 className="text-xl">ERROR</h1>
-      <code className="text-xs text-justify max-w-96">{message}</code>
-      <p>Good luck</p>
-    </div>
-  )
-}
